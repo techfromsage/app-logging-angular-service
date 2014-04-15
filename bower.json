@@ -1,0 +1,19 @@
+{
+    "name": "app-logger-angular",
+    "version": "0.1.0",
+    "main": "./js/logging.js",
+    "description": "Client side logging sent to the server",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/talis/app-logger-angular-service.git"
+    },
+    "dependencies": {
+        "angular": "*",
+        "jquery": "1.9.x"
+    },
+    "ignore": [
+        "node_modules",
+        "components",
+        "lib"
+    ]
+}

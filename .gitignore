@@ -1,0 +1,10 @@
+lllib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+.idea/
+bower_components
