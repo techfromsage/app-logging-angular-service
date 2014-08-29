@@ -46,8 +46,10 @@ loggingModule.factory(
     ["$log","$window", "stacktraceService", "LOGGING_CONFIG", function($log, $window, stacktraceService, LOGGING_CONFIG){
         function error( exception, cause){
 
-            // preserver default behaviour i.e. dump to browser console
-            $log.error.apply($log, arguments);
+            if (LOGGING_CONFIG.LOGGING_TYPE !== 'none') {
+              // preserve default behaviour i.e. dump to browser console
+              $log.error.apply($log, arguments);
+            }
 
             // check if the config says we should log to the remote, and also if a remote endpoint was specified
             if (LOGGING_CONFIG.LOGGING_TYPE === 'remote' && LOGGING_CONFIG.REMOTE_ENDPOINT) {
@@ -90,8 +92,10 @@ loggingModule.factory(
     ["$log","$window", "LOGGING_CONFIG", function($log, $window, LOGGING_CONFIG){
         return({
             error: function(message){
-                // preseve default behaviour
-                $log.error.apply($log, arguments);
+                if (LOGGING_CONFIG.LOGGING_TYPE !== 'none') {
+                  // preserve default behaviour
+                  $log.error.apply($log, arguments);
+                }
 
                 // check if the config says we should log to the remote, and also if a remote endpoint was specified
                 if (LOGGING_CONFIG.LOGGING_TYPE === 'remote' && LOGGING_CONFIG.REMOTE_ENDPOINT) {
@@ -109,8 +113,10 @@ loggingModule.factory(
                 }
             },
             debug: function(message){
-                $log.log.apply($log, arguments);
-
+                if (LOGGING_CONFIG.LOGGING_TYPE !== 'none') {
+                  $log.log.apply($log, arguments);
+                }
+              
                 // check if the config says we should log to the remote, and also if a remote endpoint was specified
                 if (LOGGING_CONFIG.LOGGING_TYPE === 'remote' && LOGGING_CONFIG.REMOTE_ENDPOINT) {
                   $.ajax({
