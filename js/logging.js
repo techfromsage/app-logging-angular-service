@@ -116,7 +116,7 @@ loggingModule.factory(
                 if (LOGGING_CONFIG.LOGGING_TYPE !== 'none') {
                   $log.log.apply($log, arguments);
                 }
-              
+
                 // check if the config says we should log to the remote, and also if a remote endpoint was specified
                 if (LOGGING_CONFIG.LOGGING_TYPE === 'remote' && LOGGING_CONFIG.REMOTE_ENDPOINT) {
                   $.ajax({
