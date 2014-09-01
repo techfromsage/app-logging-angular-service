@@ -9,8 +9,7 @@
     },
     "dependencies": {
         "angular": "*",
-        "jquery": "1.9.x",
-        "stacktrace": "~0.6.0"
+        "jquery": "1.9.x"
     },
     "ignore": [
         "node_modules",
