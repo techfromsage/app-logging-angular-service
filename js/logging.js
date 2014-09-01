@@ -52,7 +52,7 @@ loggingModule.factory(
             }
 
             // check if the config says we should log to the remote, and also if a remote endpoint was specified
-            if (LOGGING_CONFIG.LOGGING_TYPE === 'remote' && LOGGING_CONFIG.REMOTE_ENDPOINT) {
+            if (LOGGING_CONFIG.LOGGING_TYPE === 'remote' && LOGGING_CONFIG.REMOTE_LOGGING_ENDPOINT) {
               // now log server side.
               try{
                   var errorMessage = exception.toString();
@@ -62,7 +62,7 @@ loggingModule.factory(
                   // angular might be fubar'd
                   $.ajax({
                       type: "POST",
-                      url: LOGGING_CONFIG.REMOTE_ENDPOINT + "/clientlogger",
+                      url: LOGGING_CONFIG.REMOTE_LOGGING_ENDPOINT,
                       contentType: "application/json",
                       data: angular.toJson({
                           url: $window.location.href,
@@ -98,11 +98,11 @@ loggingModule.factory(
                 }
 
                 // check if the config says we should log to the remote, and also if a remote endpoint was specified
-                if (LOGGING_CONFIG.LOGGING_TYPE === 'remote' && LOGGING_CONFIG.REMOTE_ENDPOINT) {
+                if (LOGGING_CONFIG.LOGGING_TYPE === 'remote' && LOGGING_CONFIG.REMOTE_LOGGING_ENDPOINT) {
                   // send server side
                   $.ajax({
                       type: "POST",
-                      url: LOGGING_CONFIG.REMOTE_ENDPOINT + "/clientlogger",
+                      url: LOGGING_CONFIG.REMOTE_LOGGING_ENDPOINT,
                       contentType: "application/json",
                       data: angular.toJson({
                           url: $window.location.href,
@@ -118,10 +118,10 @@ loggingModule.factory(
                 }
 
                 // check if the config says we should log to the remote, and also if a remote endpoint was specified
-                if (LOGGING_CONFIG.LOGGING_TYPE === 'remote' && LOGGING_CONFIG.REMOTE_ENDPOINT) {
+                if (LOGGING_CONFIG.LOGGING_TYPE === 'remote' && LOGGING_CONFIG.REMOTE_LOGGING_ENDPOINT) {
                   $.ajax({
                       type: "POST",
-                      url: LOGGING_CONFIG.REMOTE_ENDPOINT + "/clientlogger",
+                      url: LOGGING_CONFIG.REMOTE_LOGGING_ENDPOINT,
                       contentType: "application/json",
                       data: angular.toJson({
                           url: $window.location.href,
@@ -148,10 +148,10 @@ loggingModule.factory(
                 if ($rootScope.user != null) payload.user = $rootScope.user.profile;
 
                 // check if the config says we should log to the remote, and also if a remote endpoint was specified
-                if (LOGGING_CONFIG.LOGGING_TYPE === 'remote' && LOGGING_CONFIG.REMOTE_ENDPOINT) {
+                if (LOGGING_CONFIG.LOGGING_TYPE === 'remote' && LOGGING_CONFIG.REMOTE_ERROR_REPORT_ENDPOINT) {
                   $.ajax({
                       type: "POST",
-                      url: LOGGING_CONFIG.REMOTE_ENDPOINT + "/usererrorreport",
+                      url: LOGGING_CONFIG.REMOTE_ERROR_REPORT_ENDPOINT,
                       contentType: "application/json",
                       data: angular.toJson(payload)
                   });
