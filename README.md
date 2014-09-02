@@ -22,3 +22,14 @@ The config object to be passed to each service has the following properties:
   - error: only log error messages (debug messages are not logged)
 
 The config object should be declared as an AngularJS constant named LOGGING_CONFIG.
+
+Example use of LOGGING_CONFIG:
+
+```javascript
+// config object for application logger
+config.LOGGING_CONFIG = { 
+  LOGGING_TYPE: 'local', 
+  REMOTE_LOGGING_ENDPOINT: config.TDC_ENDPOINT + "/clientlogger", 
+  REMOTE_ERROR_REPORT_ENDPOINT: config.TDC_ENDPOINT + "/usererrorreport", 
+  LOGGING_LEVEL: "debug" };
+```
