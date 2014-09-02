@@ -17,5 +17,8 @@ The config object to be passed to each service has the following properties:
   - none: perform no logging
 - REMOTE_LOGGING_ENDPOINT: the full URL to the endpoint where log messages are sent via AJAX POST
 - REMOTE_ERROR_REPORT_ENDPOINT: the full URL to the endpoint where user error reports will be sent via AJAX POST
+- LOGGING_LEVEL (can be debug|error)
+  - debug: log both debug and error messages
+  - error: only log error messages (debug messages are not logged)
 
 The config object should be declared as an AngularJS constant named LOGGING_CONFIG.

@@ -113,22 +113,24 @@ loggingModule.factory(
                 }
             },
             debug: function(message){
-                if (LOGGING_CONFIG.LOGGING_TYPE !== 'none') {
-                  $log.log.apply($log, arguments);
-                }
+                if (LOGGING_CONFIG.LOGGING_LEVEL !== 'error') {
+                  if (LOGGING_CONFIG.LOGGING_TYPE !== 'none') {
+                    $log.log.apply($log, arguments);
+                  }
 
-                // check if the config says we should log to the remote, and also if a remote endpoint was specified
-                if (LOGGING_CONFIG.LOGGING_TYPE === 'remote' && LOGGING_CONFIG.REMOTE_LOGGING_ENDPOINT) {
-                  $.ajax({
-                      type: "POST",
-                      url: LOGGING_CONFIG.REMOTE_LOGGING_ENDPOINT,
-                      contentType: "application/json",
-                      data: angular.toJson({
-                          url: $window.location.href,
-                          message: message,
-                          type: "debug"
-                      })
-                  });
+                  // check if the config says we should log to the remote, and also if a remote endpoint was specified
+                  if (LOGGING_CONFIG.LOGGING_TYPE === 'remote' && LOGGING_CONFIG.REMOTE_LOGGING_ENDPOINT) {
+                    $.ajax({
+                        type: "POST",
+                        url: LOGGING_CONFIG.REMOTE_LOGGING_ENDPOINT,
+                        contentType: "application/json",
+                        data: angular.toJson({
+                            url: $window.location.href,
+                            message: message,
+                            type: "debug"
+                        })
+                    });
+                  }
                 }
             }
         });
