@@ -91,10 +91,10 @@ loggingModule.factory(
     "applicationLoggingService",
     ["$log","$window", "LOGGING_CONFIG", function($log, $window, LOGGING_CONFIG){
         return({
-            error: function(message){
+            error: function(message, desc){
                 if (LOGGING_CONFIG.LOGGING_TYPE !== 'none') {
                   // preserve default behaviour
-                  $log.error.apply($log, arguments);
+                  $log.error.apply($log, [message]);
                 }
 
                 // check if the config says we should log to the remote, and also if a remote endpoint was specified
@@ -107,15 +107,16 @@ loggingModule.factory(
                       data: angular.toJson({
                           url: $window.location.href,
                           message: message,
-                          type: "error"
+                          type: "error",
+                          desc: desc
                       })
                   });
                 }
             },
-            debug: function(message){
+            debug: function(message, desc){
                 if (LOGGING_CONFIG.LOGGING_LEVEL !== 'error') {
                   if (LOGGING_CONFIG.LOGGING_TYPE !== 'none') {
-                    $log.log.apply($log, arguments);
+                    $log.log.apply($log, [message]);
                   }
 
                   // check if the config says we should log to the remote, and also if a remote endpoint was specified
@@ -127,7 +128,8 @@ loggingModule.factory(
                         data: angular.toJson({
                             url: $window.location.href,
                             message: message,
-                            type: "debug"
+                            type: "debug",
+                            desc: desc
                         })
                     });
                   }
