@@ -30,9 +30,9 @@ loggingModule.factory(
  */
 loggingModule.provider(
     "$exceptionHandler",{
-        $get: function(exceptionLoggingService){
+        $get: ['exceptionLoggingService', function(exceptionLoggingService){
             return(exceptionLoggingService);
-        }
+        }]
     }
 );
 
