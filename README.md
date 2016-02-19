@@ -12,7 +12,7 @@ Exposes the following, all of which require the logging config object:
 The config object to be passed to each service has the following properties:
 
 - LOGGING_THRESHOLD
-  - trace/debug/info/warn/error - the threshold at which to create log entries
+  - trace/debug/info/warn/error (default = info) - the threshold at which to create log entries
 - LOGGING_TYPE (can be local|remote|none)
   - local: log to local console only
   - remote: log to local console and remote endpoint
