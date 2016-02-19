@@ -93,7 +93,6 @@ loggingModule.factory(
         var arrLoggingLevels = ['trace', 'debug', 'info', 'warn', 'error'];
 
         var loggingThreshold = LOGGING_CONFIG.LOGGING_THRESHOLD || 'info';
-        console.error('APPLOGGER - LOGGING_THRESHOLD = ', loggingThreshold);
 
         var iLoggingThreshold = arrLoggingLevels.indexOf(loggingThreshold);
 
