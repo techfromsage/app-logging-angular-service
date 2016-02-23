@@ -1,3 +1,9 @@
+## 2.1.0 (2016-02-23)
+
+Features:
+
+  - Allow override of the logging threshold by calling applicationLoggingService.setLoggingThreshold(level)
+
 ## 2.0.0 (2016-02-19)
 
 Features:

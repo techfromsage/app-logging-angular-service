@@ -91,9 +91,7 @@ loggingModule.factory(
     "applicationLoggingService",
     ["$log","$window", "LOGGING_CONFIG", function($log, $window, LOGGING_CONFIG){
         var arrLoggingLevels = ['trace', 'debug', 'info', 'warn', 'error'];
-
         var loggingThreshold = LOGGING_CONFIG.LOGGING_THRESHOLD || 'info';
-
         var iLoggingThreshold = arrLoggingLevels.indexOf(loggingThreshold);
 
         var isLoggingEnabledForSeverity = function(severity) {
@@ -154,6 +152,16 @@ loggingModule.factory(
             },
             error: function(message, desc) {
                 log('error', message, desc);
+            },
+            setLoggingThreshold: function(level) {
+                /*
+                 * Normally the logger would use the logging threshold passed in on the config hash but an
+                 * application may want to override this dynamically, e.g. to enable a different logging
+                 * threshold for a given user.
+                 */
+                if (arrLoggingLevels.indexOf(level) !== -1) {
+                    iLoggingThreshold = arrLoggingLevels.indexOf(level);
+                }
             }
         });
     }]
