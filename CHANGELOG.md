@@ -1,3 +1,9 @@
+## 2.1.1 (2016-02-24)
+
+Bug fix:
+
+  - If overriding the logging threshold dynamically, also pass this value back to the remote logging URL.
+
 ## 2.1.0 (2016-02-23)
 
 Features:
