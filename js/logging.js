@@ -94,6 +94,12 @@ loggingModule.factory(
         var loggingThreshold = LOGGING_CONFIG.LOGGING_THRESHOLD || 'info';
         var iLoggingThreshold = arrLoggingLevels.indexOf(loggingThreshold);
 
+        /*
+         * If we've told applicationLoggingService to override the logging threshold set in config then also pass
+         * it back to the remote client logging URL.
+         */
+        var overrideLoggingThreshold = false;
+
         var isLoggingEnabledForSeverity = function(severity) {
             var iRequestedLevel = arrLoggingLevels.indexOf(severity);
             if (iRequestedLevel === -1) {
@@ -131,7 +137,8 @@ loggingModule.factory(
                         type: severity,
                         url: $window.location.href,
                         message: message,
-                        desc: desc
+                        desc: desc,
+                        overrideLoggingThreshold: overrideLoggingThreshold
                     })
                 });
             }
@@ -161,6 +168,7 @@ loggingModule.factory(
                  */
                 if (arrLoggingLevels.indexOf(level) !== -1) {
                     iLoggingThreshold = arrLoggingLevels.indexOf(level);
+                    overrideLoggingThreshold = true;
                 }
             }
         });
