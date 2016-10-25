@@ -1,3 +1,9 @@
+## 2.1.2 (2016-10-25)
+
+Bug fix:
+
+  - Log 'message' and 'desc' params correctly via the logger.
+
 ## 2.1.1 (2016-02-24)
 
 Bug fix:
