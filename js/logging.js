@@ -123,7 +123,11 @@ loggingModule.factory(
                     angularLogSeverity = 'log';
                 }
 
-                $log[angularLogSeverity](message, desc);
+                if (desc) {
+                    $log[angularLogSeverity](message, desc);
+                } else {
+                    $log[angularLogSeverity](message);
+                }
             }
 
             // check if the config says we should log to the remote, and also if a remote endpoint was specified
