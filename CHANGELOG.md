@@ -1,3 +1,9 @@
+## 2.1.3 (2016-10-26)
+
+Bug fix:
+
+  - Only log 'desc' param to console if set.
+
 ## 2.1.2 (2016-10-25)
 
 Bug fix:
