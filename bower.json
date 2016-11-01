@@ -1,6 +1,6 @@
 {
     "name": "app-logger-angular",
-    "version": "2.1.3",
+    "version": "2.1.4",
     "main": "./js/logging.js",
     "description": "Client side logging sent to the server",
     "repository": {

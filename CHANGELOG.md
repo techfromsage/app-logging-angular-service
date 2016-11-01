@@ -1,3 +1,9 @@
+## 2.1.4 (2016-11-01)
+
+Improvement:
+
+  - Add setDefaultData(obj) to allow certain data to be logged on every logger call. (e.g. logging of user details)
+
 ## 2.1.3 (2016-10-26)
 
 Bug fix:
