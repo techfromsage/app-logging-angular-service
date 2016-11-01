@@ -100,6 +100,12 @@ loggingModule.factory(
          */
         var overrideLoggingThreshold = false;
 
+        /*
+         * Allows the calling code to set some default data that will get logged on
+         * every call to applicationLoggingService.
+         */
+        var defaultData = null;
+
         var isLoggingEnabledForSeverity = function(severity) {
             var iRequestedLevel = arrLoggingLevels.indexOf(severity);
             if (iRequestedLevel === -1) {
@@ -142,6 +148,7 @@ loggingModule.factory(
                         url: $window.location.href,
                         message: message,
                         desc: desc,
+                        defaultData: defaultData,
                         overrideLoggingThreshold: overrideLoggingThreshold
                     })
                 });
@@ -174,6 +181,9 @@ loggingModule.factory(
                     iLoggingThreshold = arrLoggingLevels.indexOf(level);
                     overrideLoggingThreshold = true;
                 }
+            },
+            setDefaultData: function(data) {
+                defaultData = data;
             }
         });
     }]
