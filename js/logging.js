@@ -30,9 +30,9 @@ loggingModule.factory(
  * Override Angular's built in exception handler, and tell it to use our new exceptionLoggingService
  */
 loggingModule.provider('$exceptionHandler', {
-    $get: function (exceptionLoggingService) {
+    $get: ['exceptionLoggingService', function (exceptionLoggingService) {
         return (exceptionLoggingService);
-    }
+    }]
 });
 
 /**
