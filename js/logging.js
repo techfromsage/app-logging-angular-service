@@ -18,9 +18,9 @@ var loggingModule = angular.module('talis.services.logging', []);
  * methods in the global context is not the 'angular way'
  */
 loggingModule.factory(
-    "stacktraceService",
-    function(){
-        return({
+    'stacktraceService',
+    function () {
+        return ({
             print: printStackTrace
         });
     }
@@ -29,13 +29,11 @@ loggingModule.factory(
 /**
  * Override Angular's built in exception handler, and tell it to use our new exceptionLoggingService
  */
-loggingModule.provider(
-    "$exceptionHandler",{
-        $get: ['exceptionLoggingService', function(exceptionLoggingService){
-            return(exceptionLoggingService);
-        }]
-    }
-);
+loggingModule.provider('$exceptionHandler', {
+    $get: ['exceptionLoggingService', function (exceptionLoggingService) {
+        return (exceptionLoggingService);
+    }]
+});
 
 /**
  * Exception Logging Service, currently only used by the $exceptionHandler but logs to the console and uses the
@@ -43,9 +41,9 @@ loggingModule.provider(
  * service.
  */
 loggingModule.factory(
-    "exceptionLoggingService",
-    ["$log","$window", "stacktraceService", "LOGGING_CONFIG", function($log, $window, stacktraceService, LOGGING_CONFIG){
-        function error( exception, cause){
+    'exceptionLoggingService',
+    ['$log', '$window', 'stacktraceService', 'LOGGING_CONFIG', function ($log, $window, stacktraceService, LOGGING_CONFIG) {
+        function error(exception, cause) {
             if (LOGGING_CONFIG.LOGGING_TYPE !== 'none') {
                 // preserve default behaviour i.e. dump to browser console
                 $log.error.apply($log, arguments);
@@ -56,29 +54,29 @@ loggingModule.factory(
                 // now log server side.
                 try {
                     var errorMessage = exception.toString();
-                    var stackTrace = stacktraceService.print({e: exception});
+                    var stackTrace = stacktraceService.print({ e: exception });
 
                     // use AJAX not an angular service because if something has gone wrong
                     // angular might be fubar'd
                     $.ajax({
-                        type: "POST",
+                        type: 'POST',
                         url: LOGGING_CONFIG.REMOTE_LOGGING_ENDPOINT,
-                        contentType: "application/json",
+                        contentType: 'application/json',
                         data: angular.toJson({
                             url: $window.location.href,
                             message: errorMessage,
-                            type: "exception",
+                            type: 'exception',
                             stackTrace: stackTrace,
-                            cause: ( cause || "")
+                            cause: (cause || '')
                         })
                     });
                 } catch (loggingError) {
-                    $log.warn("Error logging failed");
+                    $log.warn('Error logging failed');
                     $log.log(loggingError);
                 }
             }
         }
-        return( error );
+        return (error);
     }]
 );
 
@@ -88,8 +86,8 @@ loggingModule.factory(
  * server specifically eg:  $http.get().error( function(){ call applicationloggingservice here })
  */
 loggingModule.factory(
-    "applicationLoggingService",
-    ["$log","$window", "LOGGING_CONFIG", function($log, $window, LOGGING_CONFIG){
+    'applicationLoggingService',
+    ['$log', '$window', 'LOGGING_CONFIG', function ($log, $window, LOGGING_CONFIG) {
         var arrLoggingLevels = ['trace', 'debug', 'info', 'warn', 'error'];
         var loggingThreshold = LOGGING_CONFIG.LOGGING_THRESHOLD || 'info';
         var iLoggingThreshold = arrLoggingLevels.indexOf(loggingThreshold);
@@ -106,7 +104,7 @@ loggingModule.factory(
          */
         var defaultData = null;
 
-        var isLoggingEnabledForSeverity = function(severity) {
+        var isLoggingEnabledForSeverity = function (severity) {
             var iRequestedLevel = arrLoggingLevels.indexOf(severity);
             if (iRequestedLevel === -1) {
                 // Invalid level requested
@@ -114,9 +112,9 @@ loggingModule.factory(
             }
 
             return (iRequestedLevel >= iLoggingThreshold);
-        }
+        };
 
-        var log = function(severity, message, desc) {
+        var log = function (severity, message, desc) {
             if (!isLoggingEnabledForSeverity(severity)) {
                 return;
             }
@@ -130,6 +128,7 @@ loggingModule.factory(
                 }
 
                 if (desc) {
+                    desc = JSON.stringify(desc);
                     $log[angularLogSeverity](message, desc);
                 } else {
                     $log[angularLogSeverity](message);
@@ -139,39 +138,44 @@ loggingModule.factory(
             // check if the config says we should log to the remote, and also if a remote endpoint was specified
             if (LOGGING_CONFIG.LOGGING_TYPE === 'remote' && LOGGING_CONFIG.REMOTE_LOGGING_ENDPOINT) {
                 // send server side
+                var data = {
+                    type: severity,
+                    message: message,
+                    url: $window.location.href,
+                    overrideLoggingThreshold: overrideLoggingThreshold
+                };
+                if (desc) {
+                    data.desc = desc;
+                }
+                if (defaultData) {
+                    data.defaultData = defaultData;
+                }
                 $.ajax({
-                    type: "POST",
+                    type: 'POST',
                     url: LOGGING_CONFIG.REMOTE_LOGGING_ENDPOINT,
-                    contentType: "application/json",
-                    data: angular.toJson({
-                        type: severity,
-                        url: $window.location.href,
-                        message: message,
-                        desc: desc,
-                        defaultData: defaultData,
-                        overrideLoggingThreshold: overrideLoggingThreshold
-                    })
+                    contentType: 'application/json',
+                    data: angular.toJson(data)
                 });
             }
         };
 
-        return({
-            trace: function(message, desc) {
+        return ({
+            trace: function (message, desc) {
                 log('trace', message, desc);
             },
-            debug: function(message, desc) {
+            debug: function (message, desc) {
                 log('debug', message, desc);
             },
-            info: function(message, desc) {
+            info: function (message, desc) {
                 log('info', message, desc);
             },
-            warn: function(message, desc) {
+            warn: function (message, desc) {
                 log('warn', message, desc);
             },
-            error: function(message, desc) {
+            error: function (message, desc) {
                 log('error', message, desc);
             },
-            setLoggingThreshold: function(level) {
+            setLoggingThreshold: function (level) {
                 /*
                  * Normally the logger would use the logging threshold passed in on the config hash but an
                  * application may want to override this dynamically, e.g. to enable a different logging
@@ -182,7 +186,7 @@ loggingModule.factory(
                     overrideLoggingThreshold = true;
                 }
             },
-            setDefaultData: function(data) {
+            setDefaultData: function (data) {
                 defaultData = data;
             }
         });
@@ -190,10 +194,10 @@ loggingModule.factory(
 );
 
 loggingModule.factory(
-    "userErrorReport",
-    ['$window','$rootScope','LOGGING_CONFIG',function($window,$rootScope,LOGGING_CONFIG) {
-        return({
-            send: function(userMessage,error) {
+    'userErrorReport',
+    ['$window', '$rootScope', 'LOGGING_CONFIG', function ($window, $rootScope, LOGGING_CONFIG) {
+        return ({
+            send: function (userMessage, error) {
                 var payload = {
                     url: $window.location.href,
                     systemError: error,
@@ -204,9 +208,9 @@ loggingModule.factory(
                 // check if the config says we should log to the remote, and also if a remote endpoint was specified
                 if (LOGGING_CONFIG.LOGGING_TYPE === 'remote' && LOGGING_CONFIG.REMOTE_ERROR_REPORT_ENDPOINT) {
                     $.ajax({
-                        type: "POST",
+                        type: 'POST',
                         url: LOGGING_CONFIG.REMOTE_ERROR_REPORT_ENDPOINT,
-                        contentType: "application/json",
+                        contentType: 'application/json',
                         data: angular.toJson(payload)
                     });
                 }
