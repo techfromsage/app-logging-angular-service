@@ -49,6 +49,10 @@ loggingModule.factory(
                 $log.error.apply($log, arguments);
             }
 
+            if ( LOGGING_CONFIG.LOGGING_TYPE === 'newrelic' && $window.NREUM && $window.NREUM.noticeError ) {
+                $window.NREUM.noticeError(exception);
+            }
+
             // check if the config says we should log to the remote, and also if a remote endpoint was specified
             if (LOGGING_CONFIG.LOGGING_TYPE === 'remote' && LOGGING_CONFIG.REMOTE_LOGGING_ENDPOINT) {
                 // now log server side.
