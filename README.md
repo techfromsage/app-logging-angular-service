@@ -16,6 +16,7 @@ The config object to be passed to each service has the following properties:
 - LOGGING_TYPE (can be local|remote|none)
   - local: log to local console only
   - remote: log to local console and remote endpoint
+  - newrelic: forward onto the NewRelic error handler if there's one available
   - none: perform no logging
 - REMOTE_LOGGING_ENDPOINT: the full URL to the endpoint where log messages are sent via AJAX POST
 - REMOTE_ERROR_REPORT_ENDPOINT: the full URL to the endpoint where user error reports will be sent via AJAX POST
