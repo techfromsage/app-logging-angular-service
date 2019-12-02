@@ -49,7 +49,7 @@ loggingModule.factory(
                 $log.error.apply($log, arguments);
             }
 
-            if ( LOGGING_CONFIG.LOGGING_TYPE === 'newrelic' && $window.NREUM && $window.NREUM.noticeError ) {
+            if (LOGGING_CONFIG.LOGGING_TYPE === 'newrelic' && $window.NREUM && $window.NREUM.noticeError) {
                 $window.NREUM.noticeError(exception);
             }
 

@@ -1,3 +1,9 @@
+## 2.1.6 (2019-12-2)
+
+Improvement:
+
+ - Added support for NewRelic logging so errors can be sent there if needed
+
 ## 2.1.4 (2016-11-01)
 
 Improvement:
