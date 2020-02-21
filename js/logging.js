@@ -49,7 +49,7 @@ loggingModule.factory(
                 $log.error.apply($log, arguments);
             }
 
-            if (LOGGING_CONFIG.LOGGING_TYPE === 'newrelic' && $window.NREUM && $window.NREUM.noticeError) {
+            if (LOGGING_CONFIG.FORWARD_TO_NEWRELIC && $window.NREUM && $window.NREUM.noticeError) {
                 $window.NREUM.noticeError(exception);
             }
 
@@ -137,6 +137,10 @@ loggingModule.factory(
                 } else {
                     $log[angularLogSeverity](message);
                 }
+            }
+
+            if (LOGGING_CONFIG.FORWARD_TO_NEWRELIC && $window.NREUM && $window.NREUM.noticeError) {
+                $window.NREUM.noticeError(message, {desc: desc});
             }
 
             // check if the config says we should log to the remote, and also if a remote endpoint was specified
