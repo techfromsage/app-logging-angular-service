@@ -118,7 +118,7 @@ loggingModule.factory(
             return (iRequestedLevel >= iLoggingThreshold);
         };
 
-        var log = function (severity, message, desc) {
+        var log = function (severity, message, desc, sendToNewRelic) {
             if (!isLoggingEnabledForSeverity(severity)) {
                 return;
             }
@@ -139,7 +139,7 @@ loggingModule.factory(
                 }
             }
 
-            if (LOGGING_CONFIG.FORWARD_TO_NEWRELIC && $window.NREUM && $window.NREUM.noticeError) {
+            if (sendToNewRelic && $window.NREUM && $window.NREUM.noticeError) {
                 $window.NREUM.noticeError(message, {desc: desc});
             }
 
@@ -181,7 +181,8 @@ loggingModule.factory(
                 log('warn', message, desc);
             },
             error: function (message, desc) {
-                log('error', message, desc);
+                var sendToNewRelic = LOGGING_CONFIG.FORWARD_TO_NEWRELIC && $window.NREUM && $window.NREUM.noticeError;
+                log('error', message, desc, sendToNewRelic);
             },
             setLoggingThreshold: function (level) {
                 /*
