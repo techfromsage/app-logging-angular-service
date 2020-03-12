@@ -128,7 +128,6 @@ loggingModule.factory(
                 return;
             }
 
-
             if (LOGGING_CONFIG.LOGGING_TYPE !== 'none') {
                 // preserve default behaviour
                 var angularLogSeverity = severity;
