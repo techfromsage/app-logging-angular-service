@@ -49,6 +49,10 @@ loggingModule.factory(
                 $log.error.apply($log, arguments);
             }
 
+            if($window.talisLogger.onBeforeLogError && !$window.talisLogger.onBeforeLogError(exception)) {
+                return false;
+            }
+
             if (LOGGING_CONFIG.FORWARD_TO_NEWRELIC && $window.NREUM && $window.NREUM.noticeError) {
                 $window.NREUM.noticeError(exception);
             }
@@ -95,6 +99,7 @@ loggingModule.factory(
         var arrLoggingLevels = ['trace', 'debug', 'info', 'warn', 'error'];
         var loggingThreshold = LOGGING_CONFIG.LOGGING_THRESHOLD || 'info';
         var iLoggingThreshold = arrLoggingLevels.indexOf(loggingThreshold);
+        $window.talisLogger = {};
 
         /*
          * If we've told applicationLoggingService to override the logging threshold set in config then also pass
@@ -137,6 +142,10 @@ loggingModule.factory(
                 } else {
                     $log[angularLogSeverity](message);
                 }
+            }
+
+            if($window.talisLogger.onBeforeLogError && !$window.talisLogger.onBeforeLogError(message)) {
+                return false;
             }
 
             if (sendToNewRelic && $window.NREUM && $window.NREUM.noticeError) {
