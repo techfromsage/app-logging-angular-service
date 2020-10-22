@@ -1,3 +1,9 @@
+## 2.2.1 (2020-10-23)
+
+Improvement:
+
+ - Log the browser URL when logging errors and exceptions
+
 ## 2.1.6 (2019-12-2)
 
 Improvement:
