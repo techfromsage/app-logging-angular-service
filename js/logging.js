@@ -54,7 +54,7 @@ loggingModule.factory(
             }
 
             if (LOGGING_CONFIG.FORWARD_TO_NEWRELIC && $window.NREUM && $window.NREUM.noticeError) {
-                $window.NREUM.noticeError(exception);
+                $window.NREUM.noticeError(exception, { url: $window.location.href });
             }
 
             // check if the config says we should log to the remote, and also if a remote endpoint was specified
@@ -149,7 +149,7 @@ loggingModule.factory(
             }
 
             if (sendToNewRelic && $window.NREUM && $window.NREUM.noticeError) {
-                $window.NREUM.noticeError(message, {desc: desc});
+                $window.NREUM.noticeError(message, { desc: desc, url: $window.location.href });
             }
 
             // check if the config says we should log to the remote, and also if a remote endpoint was specified
