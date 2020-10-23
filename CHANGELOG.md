@@ -1,3 +1,9 @@
+## 2.2.2 (2020-10-23)
+
+Improvement:
+
+ - Include the user GUID when sending error reports
+
 ## 2.2.1 (2020-10-23)
 
 Improvement:

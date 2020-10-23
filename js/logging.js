@@ -221,7 +221,10 @@ loggingModule.factory(
                     systemError: error,
                     userMessage: userMessage
                 };
-                if ($rootScope.user != null) payload.user = $rootScope.user.profile;
+                if ($rootScope.user != null) {
+                    payload.user = $rootScope.user.profile;
+                    payload.user.guid = $rootScope.user.guid;
+                }
 
                 // check if the config says we should log to the remote, and also if a remote endpoint was specified
                 if (LOGGING_CONFIG.LOGGING_TYPE === 'remote' && LOGGING_CONFIG.REMOTE_ERROR_REPORT_ENDPOINT) {
