@@ -53,8 +53,8 @@ loggingModule.factory(
                 return false;
             }
 
-            if (LOGGING_CONFIG.FORWARD_TO_NEWRELIC && $window.NREUM && $window.NREUM.noticeError) {
-                $window.NREUM.noticeError(exception, { url: $window.location.href });
+            if (LOGGING_CONFIG.FORWARD_TO_INSTANA && typeof ineum !== undefined && ineum) {
+                ineum('reportError', exception);
             }
 
             // check if the config says we should log to the remote, and also if a remote endpoint was specified
@@ -123,7 +123,7 @@ loggingModule.factory(
             return (iRequestedLevel >= iLoggingThreshold);
         };
 
-        var log = function (severity, message, desc, sendToNewRelic) {
+        var log = function (severity, message, desc, sendToInstana) {
             if (!isLoggingEnabledForSeverity(severity)) {
                 return;
             }
@@ -148,8 +148,12 @@ loggingModule.factory(
                 return false;
             }
 
-            if (sendToNewRelic && $window.NREUM && $window.NREUM.noticeError) {
-                $window.NREUM.noticeError(message, { desc: desc, url: $window.location.href });
+            if (sendToInstana) {
+                ineum('reportError', message, {
+                    meta: {
+                        errorDescription: JSON.stringify(desc)
+                    }
+                });
             }
 
             // check if the config says we should log to the remote, and also if a remote endpoint was specified
@@ -190,8 +194,8 @@ loggingModule.factory(
                 log('warn', message, desc);
             },
             error: function (message, desc) {
-                var sendToNewRelic = LOGGING_CONFIG.FORWARD_TO_NEWRELIC && $window.NREUM && $window.NREUM.noticeError;
-                log('error', message, desc, sendToNewRelic);
+                var sendToInstana = LOGGING_CONFIG.FORWARD_TO_INSTANA && typeof ineum !== undefined && ineum;
+                log('error', message, desc, sendToInstana);
             },
             setLoggingThreshold: function (level) {
                 /*
