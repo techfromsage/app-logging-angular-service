@@ -53,8 +53,8 @@ loggingModule.factory(
                 return false;
             }
 
-            if (LOGGING_CONFIG.FORWARD_TO_INSTANA && typeof ineum !== undefined && ineum) {
-                ineum('reportError', exception);
+            if (LOGGING_CONFIG.FORWARD_TO_INSTANA && typeof $window.ineum !== undefined && $window.ineum) {
+                $window.ineum('reportError', exception);
             }
 
             // check if the config says we should log to the remote, and also if a remote endpoint was specified
@@ -149,7 +149,7 @@ loggingModule.factory(
             }
 
             if (sendToInstana) {
-                ineum('reportError', message, {
+                $window.ineum('reportError', message, {
                     meta: {
                         errorDescription: JSON.stringify(desc)
                     }
@@ -194,7 +194,7 @@ loggingModule.factory(
                 log('warn', message, desc);
             },
             error: function (message, desc) {
-                var sendToInstana = LOGGING_CONFIG.FORWARD_TO_INSTANA && typeof ineum !== undefined && ineum;
+                var sendToInstana = LOGGING_CONFIG.FORWARD_TO_INSTANA && typeof $window.ineum !== undefined && $window.ineum;
                 log('error', message, desc, sendToInstana);
             },
             setLoggingThreshold: function (level) {
